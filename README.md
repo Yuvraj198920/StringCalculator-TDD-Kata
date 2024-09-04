@@ -13,4 +13,4 @@ This is a Python implementation of the String Calculator TDD Kata.
 
 2. Run the test cases
    ```bash
-   python test_string_calculator.py
+   python test_string_calculator.py -v
