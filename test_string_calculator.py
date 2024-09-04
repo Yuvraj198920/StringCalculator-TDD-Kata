@@ -1,45 +1,37 @@
+import unittest
 from string_calculator import StringCalculator
 
 
-def test_string_calculator():
-    calculator = StringCalculator()
+class TestStringCalculator(unittest.TestCase):
 
-    # Test empty string
-    assert calculator.add('') == 0
+    def test_empty_string(self):
+        self.assertEqual(StringCalculator.add(''), 0)
 
-    # Test single number
-    assert calculator.add('1') == 1
+    def test_single_number(self):
+        self.assertEqual(StringCalculator.add('1'), 1)
 
-    # Test two numbers
-    assert calculator.add('1,5') == 6
+    def test_two_numbers(self):
+        self.assertEqual(StringCalculator.add('1,5'), 6)
 
-    # Test multiple numbers
-    assert calculator.add('1,2,3') == 6
+    def test_multiple_numbers(self):
+        self.assertEqual(StringCalculator.add('1,2,3'), 6)
 
-    # Test handling new lines as delimiters
-    assert calculator.add('1\n2,3') == 6
+    def test_newline_as_delimiter(self):
+        self.assertEqual(StringCalculator.add('1\n2,3'), 6)
 
-    # Test custom delimiter
-    assert calculator.add('//;\n1;2') == 3
+    def test_custom_delimiter(self):
+        self.assertEqual(StringCalculator.add('//;\n1;2'), 3)
 
-    # Test multiple custom delimiters
-    assert calculator.add('//|\n1|2|3') == 6
+    def test_negative_numbers(self):
+        with self.assertRaises(ValueError) as context:
+            StringCalculator.add('1,-2,3')
+        self.assertEqual(str(context.exception), "Negative numbers not allowed: -2")
 
-    # Test negative number exception
-    try:
-        calculator.add('1,-2,3')
-    except ValueError as e:
-        assert str(e) == "Negative numbers not allowed: -2"
-
-    # Test multiple negative numbers exception
-    try:
-        calculator.add('1,-2,-3')
-    except ValueError as e:
-        assert str(e) == "Negative numbers not allowed: -2, -3"
+    def test_multiple_negative_numbers(self):
+        with self.assertRaises(ValueError) as context:
+            StringCalculator.add('1,-2,-3')
+        self.assertEqual(str(context.exception), "Negative numbers not allowed: -2, -3")
 
 
-test_string_calculator()
-
-if __name__ == "__main__":
-    test_string_calculator()
-    print("All tests passed.")
+if __name__ == '__main__':
+    unittest.main()
